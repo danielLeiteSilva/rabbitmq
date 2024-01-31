@@ -1,31 +1,21 @@
-const amqp = require("amqplib");
+const amqplib = require('amqplib');
+const express = require('express')
 
-const queue = "product_inventory";
-const text = {
-  item_id: "macbook",
-  text: "Fuck you",
-};
+const app = express()
 
-function sleep(){
-  return new Promise(resolve => setTimeout(resolve, 5000))
-}
+app.use(express.json())
 
-(async () => {
-  let connection;
-  try {
-    connection = await amqp.connect("amqp://localhost");
-    const channel = await connection.createChannel();
+app.post('/publisher', async (req, res) => {
 
-    for (let i = 0; i < 50; i++) {
-      await channel.assertQueue(queue, { durable: false });
-      channel.sendToQueue(queue, Buffer.from(JSON.stringify(text)));
-      console.log(" [x] Sent '%s'", text);
-      // await sleep()
-    }
-    await channel.close();
-  } catch (err) {
-    console.warn(err);
-  } finally {
-    if (connection) await connection.close();
-  }
-})();
+  const queue = 'tasks';
+  const conn = await amqplib.connect('amqp://localhost');
+  const channel = await conn.createChannel();
+  channel.sendToQueue(queue, Buffer.from(JSON.stringify(req.body)));
+
+  res.status(200).json({ok: true})
+
+})
+
+app.listen(8081, () => console.log("Connected"))
+
+

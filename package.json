@@ -4,18 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc index.ts",
-    "start": "npm run build && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielLeiteSilva/rabbitmq.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "typescript": "^5.1.6"
+  "bugs": {
+    "url": "https://github.com/danielLeiteSilva/rabbitmq/issues"
   },
+  "homepage": "https://github.com/danielLeiteSilva/rabbitmq#readme",
   "dependencies": {
-    "@types/node": "^20.4.2",
-    "amqplib": "^0.10.3"
+    "amqplib": "^0.10.3",
+    "express": "^4.18.2"
   }
 }
